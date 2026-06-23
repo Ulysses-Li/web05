@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nine9 刀具選型 Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f5f7fb;
+      color: #1f2937;
+      font-family: "Microsoft JhengHei", system-ui, sans-serif;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111827, #374151);
+      color: white;
+      padding: 56px 0 42px;
+      border-radius: 0 0 32px 32px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .step-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(15,23,42,.08);
+    }
+
+    .option-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 20px;
+      background: white;
+      cursor: pointer;
+      height: 100%;
+      transition: .18s ease;
+    }
+
+    .option-card:hover,
+    .option-card.active {
+      border-color: #2563eb;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(37,99,235,.14);
+    }
+
+    .option-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .result-box {
+      background: #0f172a;
+      color: white;
+      border-radius: 24px;
+      padding: 28px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e0ecff;
+      color: #1d4ed8;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-right: 6px;
+      margin-bottom: 8px;
+    }
+
+    .muted-small {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .flow-dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #2563eb;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <span class="hero-badge">Nine9 Tool Selector Demo</span>
+      <h1 class="display-5 fw-bold mb-3">不是先選產品，而是先選加工需求</h1>
+      <p class="lead mb-0">依照客戶實際問題，引導到正確刀具系列。</p>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    <section class="step-card mb-4">
+      <h2 class="h4 fw-bold mb-2"><span class="flow-dot">1</span>你要做什麼加工？</h2>
+      <p class="muted-small mb-4">第一層先用客戶聽得懂的加工目的分類。</p>
+      <div class="row g-3" id="mainOptions"></div>
+    </section>
+
+    <section class="step-card mb-4 d-none" id="problemSection">
+      <h2 class="h4 fw-bold mb-2"><span class="flow-dot">2</span>你要解決什麼問題？</h2>
+      <p class="muted-small mb-4" id="problemHint">請選擇更細的加工需求。</p>
+      <div class="row g-3" id="problemOptions"></div>
+    </section>
+
+    <section class="result-box d-none" id="resultSection">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <div class="mb-3">
+            <span class="tag" id="tagMain"></span>
+            <span class="tag" id="tagProblem"></span>
+          </div>
+          <h2 class="fw-bold mb-3" id="resultTitle">推薦刀具</h2>
+          <p class="mb-3" id="resultDesc"></p>
+          <div class="table-responsive">
+            <table class="table table-dark table-bordered align-middle mb-0">
+              <tbody>
+                <tr>
+                  <th style="width: 140px;">推薦系列</th>
+                  <td id="resultSeries"></td>
+                </tr>
+                <tr>
+                  <th>代表產品</th>
+                  <td id="resultProducts"></td>
+                </tr>
+                <tr>
+                  <th>下一步</th>
+                  <td id="resultNext"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="bg-white text-dark rounded-4 p-4">
+            <h3 class="h5 fw-bold">後續可接資料庫</h3>
+            <p class="muted-small mb-3">這裡未來可以接 Google Sheet / JSON。</p>
+            <ol class="mb-0 small">
+              <li>選角度 / 孔徑 / 材料</li>
+              <li>推薦刀桿與刀片</li>
+              <li>輸出切削條件</li>
+              <li>下載型錄 / CAD</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const selectorData = [
+      {
+        key: 'hole',
+        icon: '🕳️',
+        title: '孔加工',
+        en: 'Hole Making',
+        desc: '定位、中心鑽、鑽孔、螺旋銑孔、搪孔',
+        problems: [
+          { name: '我要定位', series: 'Spotting', products: 'ACE Spot Drill / NC Spot Drill / Micro Spot Drill', desc: '用於鑽孔前定位，提升孔位精度。', next: '選擇角度、孔徑、材料與定位深度。' },
+          { name: '我要中心孔', series: 'Centering', products: 'i-Center', desc: '適合中心孔與車床前置加工。', next: '選擇中心孔規格與加工深度。' },
+          { name: '我要鑽孔', series: 'Drilling', products: 'Super Drill / Super Power Drill', desc: '用於高效率鑽孔加工。', next: '選擇孔徑、深度、材料與冷卻方式。' },
+          { name: '我要大孔或薄板孔', series: 'Helix Drilling', products: 'NC Helix Drill', desc: '以螺旋銑孔方式加工較大孔徑或薄板孔。', next: '輸入孔徑、板厚、刀徑與材料。' },
+          { name: '我要精修孔徑', series: 'Boring', products: 'NineBore / NineSwiss Modular Head', desc: '用於孔徑精修、搪孔與高精度孔加工。', next: '輸入預孔、完成孔徑、公差與深度。' }
+        ]
+      },
+      {
+        key: 'chamfer',
+        icon: '📐',
+        title: '倒角 / R角',
+        en: 'Chamfering & Corner Rounding',
+        desc: 'C角、定位倒角、外R與內R加工',
+        problems: [
+          { name: '我要C角倒角', series: 'Chamfering', products: 'Chamfer Mill', desc: '適合一般 C 角倒角加工。', next: '輸入角度、C角大小與工件材料。' },
+          { name: '我要定位加倒角', series: 'Multi-purpose Spotting', products: 'NC Spot Drill', desc: '可兼具定位與小倒角用途。', next: '輸入孔徑、倒角大小與角度。' },
+          { name: '我要外R角', series: 'Corner Rounding', products: 'RC Type', desc: '適合外輪廓 R 角加工。', next: '選擇 R 值、工件形狀與材料。' },
+          { name: '我要內R角', series: 'Corner Rounding', products: 'R Type', desc: '適合內側或邊角 R 加工。', next: '選擇 R 值與可加工空間。' }
+        ]
+      },
+      {
+        key: 'deburring',
+        icon: '✨',
+        title: '去毛刺',
+        en: 'Deburring',
+        desc: '孔口、正反面、交叉孔去毛刺',
+        problems: [
+          { name: '我要孔口去毛刺', series: 'Deburring', products: 'NC Deburring', desc: '適合孔口與邊緣去毛刺。', next: '確認孔徑、毛刺位置與可接近方向。' },
+          { name: '我要正反面去毛刺', series: 'Back Deburring', products: 'MCC Deburring Mill', desc: '適合需要處理正面與背面毛刺的加工。', next: '確認背面空間、孔徑與機台軸向能力。' },
+          { name: '我要交叉孔去毛刺', series: 'Deburring', products: 'NC Deburring', desc: '適合交叉孔、斜面孔口等去毛刺應用。', next: '確認交叉角度、孔徑與加工路徑。' }
+        ]
+      },
+      {
+        key: 'engraving',
+        icon: '✏️',
+        title: '雕刻刻字',
+        en: 'Fine Engraving',
+        desc: '文字、Logo、細字與深刻字',
+        problems: [
+          { name: '我要一般刻字', series: 'Fine Engraving', products: 'V060 / X060', desc: '適合一般文字與標記雕刻。', next: '選擇字高、深度、角度與材料。' },
+          { name: '我要細字雕刻', series: 'Fine Engraving', products: 'V045', desc: '適合較細小文字或精密標記。', next: '輸入字寬、深度與表面材質。' },
+          { name: '我要深刻字', series: 'Fine Engraving', products: 'W060', desc: '適合較深或較明顯的雕刻需求。', next: '確認深度、字寬與刀具伸出長度。' },
+          { name: '我要可換刀片雕刻', series: 'Indexable Engraving', products: 'N9MT-W', desc: '適合需要穩定量產與更換刀片的雕刻。', next: '選刀桿、刀片角度與加工材料。' }
+        ]
+      },
+      {
+        key: 'thread',
+        icon: '🔩',
+        title: '螺紋加工',
+        en: 'Threading',
+        desc: '公制牙、UN牙、BSPP、PT、NPT',
+        problems: [
+          { name: '我要公制牙 M', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合公制內外螺紋銑削。', next: '選擇 M 規格、Pitch、深度與材料。' },
+          { name: '我要UN牙', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合 UNC / UNF / UNEF 等牙型。', next: '輸入牙規、牙距、深度與方向。' },
+          { name: '我要管用平行牙 G/BSPP', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合 BSPP / G 平行管牙。', next: '選擇 G 規格、深度與材料。' },
+          { name: '我要管用錐度牙 PT/NPT', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合 PT / Rc / NPT 管用錐度牙。', next: '選擇牙規、錐度、深度與切削路徑。' }
+        ]
+      },
+      {
+        key: 'milling',
+        icon: '⚙️',
+        title: '銑削加工',
+        en: 'High Performance Milling',
+        desc: '側銑、槽銑、面銑與高效率加工',
+        problems: [
+          { name: '我要側銑', series: 'Milling', products: 'Power Mill', desc: '適合側面加工與輪廓銑削。', next: '輸入材料、切深、切寬與機台剛性。' },
+          { name: '我要槽銑', series: 'Milling', products: 'Power Mill', desc: '適合溝槽與高效率材料去除。', next: '輸入槽寬、深度、材料與冷卻方式。' },
+          { name: '我要面銑', series: 'Milling', products: 'Power Mill', desc: '適合平面加工與粗加工。', next: '輸入加工面積、材料與表面需求。' }
+        ]
+      }
+    ];
+
+    const mainOptions = document.getElementById('mainOptions');
+    const problemSection = document.getElementById('problemSection');
+    const problemOptions = document.getElementById('problemOptions');
+    const problemHint = document.getElementById('problemHint');
+    const resultSection = document.getElementById('resultSection');
+
+    let currentMain = null;
+
+    function renderMainOptions() {
+      mainOptions.innerHTML = selectorData.map(item => `
+        <div class="col-md-6 col-lg-4">
+          <div class="option-card" data-main="${item.key}">
+            <div class="option-icon">${item.icon}</div>
+            <h3 class="h5 fw-bold mb-1">${item.title}</h3>
+            <div class="muted-small mb-2">${item.en}</div>
+            <p class="mb-0 small">${item.desc}</p>
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('[data-main]').forEach(card => {
+        card.addEventListener('click', () => selectMain(card.dataset.main));
+      });
+    }
+
+    function selectMain(key) {
+      currentMain = selectorData.find(item => item.key === key);
+      document.querySelectorAll('[data-main]').forEach(card => card.classList.remove('active'));
+      document.querySelector(`[data-main="${key}"]`).classList.add('active');
+
+      problemHint.textContent = `你選擇了「${currentMain.title}」，請選下一層加工問題。`;
+      problemOptions.innerHTML = currentMain.problems.map((problem, index) => `
+        <div class="col-md-6 col-lg-4">
+          <div class="option-card" data-problem="${index}">
+            <h3 class="h5 fw-bold mb-2">${problem.name}</h3>
+            <p class="small mb-2">${problem.desc}</p>
+            <span class="tag">${problem.series}</span>
+          </div>
+        </div>
+      `).join('');
+
+      problemSection.classList.remove('d-none');
+      resultSection.classList.add('d-none');
+
+      document.querySelectorAll('[data-problem]').forEach(card => {
+        card.addEventListener('click', () => selectProblem(Number(card.dataset.problem)));
+      });
+
+      problemSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function selectProblem(index) {
+      const problem = currentMain.problems[index];
+
+      document.querySelectorAll('[data-problem]').forEach(card => card.classList.remove('active'));
+      document.querySelector(`[data-problem="${index}"]`).classList.add('active');
+
+      document.getElementById('tagMain').textContent = currentMain.title;
+      document.getElementById('tagProblem').textContent = problem.name;
+      document.getElementById('resultTitle').textContent = `推薦：${problem.products}`;
+      document.getElementById('resultDesc').textContent = problem.desc;
+      document.getElementById('resultSeries').textContent = problem.series;
+      document.getElementById('resultProducts').textContent = problem.products;
+      document.getElementById('resultNext').textContent = problem.next;
+
+      resultSection.classList.remove('d-none');
+      resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    renderMainOptions();
+  </script>
+</body>
+</html>
