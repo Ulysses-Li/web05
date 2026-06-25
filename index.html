@@ -2,6 +2,7 @@
 <!-- 宣告文件型別為 HTML5。 -->
 <html lang="zh-Hant">
 <!-- 設定網頁語言為繁體中文。 -->
+
 <head>
   <!-- head 區塊放網頁設定、標題、CSS 與外部資源。 -->
   <meta charset="UTF-8" />
@@ -288,6 +289,7 @@
     }
 
     @media (max-width: 991.98px) {
+
       /* 平板尺寸以下套用這段。 */
       .problem-grid {
         /* 平板時第二層每列兩張卡片。 */
@@ -296,6 +298,7 @@
     }
 
     @media (max-width: 575.98px) {
+
       /* 手機尺寸以下套用這段。 */
       .problem-grid {
         /* 手機時第二層每列一張卡片。 */
@@ -306,6 +309,7 @@
   <!-- CSS 結束。 -->
 </head>
 <!-- head 結束。 -->
+
 <body>
   <!-- body 區塊放使用者看得到的內容。 -->
   <header class="hero">
@@ -446,11 +450,11 @@
         // 簡短說明。
         problems: [
           // 去毛刺的第二層問題。
-          { name: '我要修毛邊', desc: '一般孔口、邊線或加工後產生銳邊毛刺。', note: '第三層再導向 NC Deburring。' },
+          { name: '我要修毛邊', desc: '一般孔口、邊線或加工後產生銳邊毛刺。', note: '第三層再導向 NC Deburring / MCC Deburring Mill。' },
           // 第二層：修毛邊。
           { name: '我要正反面修毛邊', desc: '孔的正面與背面都需要去毛刺。', note: '第三層再導向 MCC Deburring Mill。' },
           // 第二層：正反面修毛邊。
-          { name: '我要交叉孔去毛刺', desc: '交叉孔、斜孔或內部相交位置有毛刺。', note: '第三層再判斷刀具可達性與加工路徑。' }
+          // { name: '我要交叉孔去毛刺', desc: '交叉孔、斜孔或內部相交位置有毛刺。', note: '第三層再判斷刀具可達性與加工路徑。' }
           // 第二層：交叉孔去毛刺。
         ]
         // 去毛刺 problems 結束。
@@ -560,25 +564,48 @@
 
     function renderMainOptions() {
       // renderMainOptions 負責產生第一層卡片。
+
+      // mainOptions.innerHTML = selectorData.map(item => `
+      //   <!-- 第一層卡片開始。 -->
+      //   <div class="col-md-6 col-lg-2">
+      //     <!-- Bootstrap 欄位：中螢幕兩欄，大螢幕三欄。 -->
+      //     <div class="main-card" data-main="${item.key}">
+      //       <!-- data-main 存放這張卡片對應的 key。 -->
+      //       <div class="main-icon">${item.icon}</div>
+      //       <!-- 顯示圖示。 -->
+      //       <h3 class="h5 fw-bold mb-1">${item.title}</h3>
+      //       <!-- 顯示第一層中文名稱。 -->
+      //       <div class="muted-small mb-2">${item.en}</div>
+      //       <!-- 顯示第一層英文名稱。 -->
+      //       <p class="mb-0 small">${item.desc}</p>
+      //       <!-- 顯示第一層說明。 -->
+      //     </div>
+      //     <!-- 第一層卡片內容結束。 -->
+      //   </div>
+      //   <!-- 第一層卡片結束。 -->
+      // `).join('');
+
+
       mainOptions.innerHTML = selectorData.map(item => `
         <!-- 第一層卡片開始。 -->
-        <div class="col-md-6 col-lg-4">
+        <div class=" col-md-6 col-lg-2">
           <!-- Bootstrap 欄位：中螢幕兩欄，大螢幕三欄。 -->
-          <div class="main-card" data-main="${item.key}">
+          <div class=" main-card" data-main="${item.key}">
             <!-- data-main 存放這張卡片對應的 key。 -->
-            <div class="main-icon">${item.icon}</div>
+            <div class=" main-icon">${item.icon}</div>
             <!-- 顯示圖示。 -->
             <h3 class="h5 fw-bold mb-1">${item.title}</h3>
             <!-- 顯示第一層中文名稱。 -->
             <div class="muted-small mb-2">${item.en}</div>
             <!-- 顯示第一層英文名稱。 -->
-            <p class="mb-0 small">${item.desc}</p>
+            <!-- <p class="mb-0 small">${item.desc}</p> -->
             <!-- 顯示第一層說明。 -->
           </div>
           <!-- 第一層卡片內容結束。 -->
         </div>
         <!-- 第一層卡片結束。 -->
       `).join('');
+
       // map 產生陣列，join 合併成 HTML 字串。
 
       document.querySelectorAll('[data-main]').forEach(card => {
@@ -598,7 +625,9 @@
       // 先移除所有第一層卡片的 active 狀態。
       document.querySelector(`[data-main="${key}"]`).classList.add('active');
       // 將目前點選的第一層卡片加上 active 狀態。
-      problemHint.textContent = `你選擇了「${currentMain.title}」，請選擇更細的加工問題。`;
+      // problemHint.textContent = `你選擇了「${currentMain.title}」，請選擇更細的加工問題。`;
+      problemHint.textContent = `「${currentMain.desc}」`;
+
       // 更新第二層提示文字。
       problemOptions.innerHTML = currentMain.problems.map((problem, index) => `
         <!-- 第二層卡片開始。 -->
@@ -668,5 +697,6 @@
   <!-- JavaScript 結束。 -->
 </body>
 <!-- body 結束。 -->
+
 </html>
 <!-- HTML 文件結束。 -->
