@@ -1,356 +1,672 @@
 <!DOCTYPE html>
+<!-- 宣告文件型別為 HTML5。 -->
 <html lang="zh-Hant">
+<!-- 設定網頁語言為繁體中文。 -->
 <head>
+  <!-- head 區塊放網頁設定、標題、CSS 與外部資源。 -->
   <meta charset="UTF-8" />
+  <!-- 設定文字編碼，避免中文亂碼。 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nine9 刀具選型 Demo</title>
-  <!-- Bootstrap：提供版面格線、間距工具與表格樣式。 -->
+  <!-- 讓手機、平板、電腦都能依螢幕寬度正確顯示。 -->
+  <title>Nine9 刀具快選｜第一層與第二層</title>
+  <!-- 設定瀏覽器分頁標題。 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- 載入 Bootstrap，先用現成排版與間距工具。 -->
   <style>
-    /* 全站基本背景色、文字色與字體設定。 */
+    /* CSS 開始：這裡只處理畫面外觀。 */
     body {
-      background: #f5f7fb;
+      /* 設定整個網頁背景色。 */
+      background: #f3f6f8;
+      /* 設定主要文字顏色。 */
       color: #1f2937;
+      /* 設定中文字體與系統預設字體。 */
       font-family: "Microsoft JhengHei", system-ui, sans-serif;
     }
 
-    /* 頁首主視覺區塊。 */
     .hero {
-      background: linear-gradient(135deg, #111827, #374151);
+      /* 設定頁首深綠色背景，呼應你試算表的綠色表頭。 */
+      background: linear-gradient(135deg, #14532d, #2f6f55);
+      /* 設定頁首文字顏色為白色。 */
       color: white;
-      padding: 56px 0 42px;
-      border-radius: 0 0 32px 32px;
+      /* 設定頁首上下內距。 */
+      padding: 44px 0 34px;
+      /* 設定頁首下方圓角。 */
+      border-radius: 0 0 28px 28px;
     }
 
-    /* 主標題上方的小標籤。 */
     .hero-badge {
+      /* 讓小標籤可以設定寬高與內距。 */
       display: inline-block;
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.2);
+      /* 設定半透明白色背景。 */
+      background: rgba(255, 255, 255, .16);
+      /* 設定半透明白色邊框。 */
+      border: 1px solid rgba(255, 255, 255, .25);
+      /* 設定標籤內距。 */
       padding: 6px 14px;
+      /* 設定膠囊圓角。 */
       border-radius: 999px;
+      /* 設定字體大小。 */
       font-size: 14px;
-      margin-bottom: 16px;
-    }
-
-    /* 每個選擇步驟使用的白色內容卡片。 */
-    .step-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 16px 40px rgba(15,23,42,.08);
-    }
-
-    /* 可點選的選項卡片。 */
-    .option-card {
-      border: 2px solid #e5e7eb;
-      border-radius: 18px;
-      padding: 20px;
-      background: white;
-      cursor: pointer;
-      height: 100%;
-      transition: .18s ease;
-    }
-
-    /* 滑鼠移入或選取後的卡片高亮狀態。 */
-    .option-card:hover,
-    .option-card.active {
-      border-color: #2563eb;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 26px rgba(37,99,235,.14);
-    }
-
-    /* 選項卡片內的圖示方塊。 */
-    .option-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: #eff6ff;
-      color: #2563eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
+      /* 設定下方間距。 */
       margin-bottom: 14px;
     }
 
-    /* 深色的推薦結果區塊。 */
-    .result-box {
-      background: #0f172a;
-      color: white;
-      border-radius: 24px;
-      padding: 28px;
+    .step-card {
+      /* 設定白色卡片背景。 */
+      background: white;
+      /* 設定淡灰色邊框。 */
+      border: 1px solid #e5e7eb;
+      /* 設定卡片圓角。 */
+      border-radius: 22px;
+      /* 設定卡片內距。 */
+      padding: 24px;
+      /* 設定淡陰影，讓區塊浮起來。 */
+      box-shadow: 0 14px 34px rgba(15, 23, 42, .08);
     }
 
-    /* 選項與結果區中顯示的分類標籤。 */
-    .tag {
-      display: inline-block;
-      background: #e0ecff;
-      color: #1d4ed8;
-      padding: 5px 10px;
+    .flow-dot {
+      /* 設定步驟圓點寬度。 */
+      width: 30px;
+      /* 設定步驟圓點高度。 */
+      height: 30px;
+      /* 設定圓形外觀。 */
       border-radius: 999px;
-      font-size: 13px;
-      margin-right: 6px;
-      margin-bottom: 8px;
+      /* 設定圓點背景色。 */
+      background: #166534;
+      /* 設定圓點文字顏色。 */
+      color: white;
+      /* 啟用彈性排版，方便置中。 */
+      display: inline-flex;
+      /* 水平置中。 */
+      align-items: center;
+      /* 垂直置中。 */
+      justify-content: center;
+      /* 設定粗體。 */
+      font-weight: 700;
+      /* 設定右方間距。 */
+      margin-right: 8px;
     }
 
-    /* 輔助說明文字。 */
     .muted-small {
-      color: #6b7280;
+      /* 設定輔助說明文字顏色。 */
+      color: #64748b;
+      /* 設定輔助說明文字大小。 */
       font-size: 14px;
     }
 
-    /* 步驟標題前方的數字圓點。 */
-    .flow-dot {
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      background: #2563eb;
-      color: white;
-      display: inline-flex;
+    .main-card {
+      /* 設定第一層卡片邊框。 */
+      border: 2px solid #e5e7eb;
+      /* 設定第一層卡片圓角。 */
+      border-radius: 18px;
+      /* 設定第一層卡片背景。 */
+      background: white;
+      /* 設定第一層卡片內距。 */
+      padding: 20px;
+      /* 設定第一層卡片高度填滿欄位。 */
+      height: 100%;
+      /* 顯示可點選游標。 */
+      cursor: pointer;
+      /* 設定滑鼠移入動畫。 */
+      transition: .18s ease;
+    }
+
+    .main-card:hover,
+    .main-card.active {
+      /* 滑鼠移入或選取時，邊框改綠色。 */
+      border-color: #16a34a;
+      /* 滑鼠移入或選取時，卡片往上浮。 */
+      transform: translateY(-3px);
+      /* 滑鼠移入或選取時，加上綠色淡陰影。 */
+      box-shadow: 0 12px 26px rgba(22, 163, 74, .14);
+    }
+
+    .main-icon {
+      /* 設定圖示方塊寬度。 */
+      width: 48px;
+      /* 設定圖示方塊高度。 */
+      height: 48px;
+      /* 設定圖示方塊圓角。 */
+      border-radius: 14px;
+      /* 設定圖示方塊背景色。 */
+      background: #dcfce7;
+      /* 設定圖示顏色。 */
+      color: #166534;
+      /* 啟用彈性排版。 */
+      display: flex;
+      /* 垂直置中。 */
       align-items: center;
+      /* 水平置中。 */
       justify-content: center;
+      /* 設定圖示大小。 */
+      font-size: 24px;
+      /* 設定下方間距。 */
+      margin-bottom: 14px;
+    }
+
+    .problem-grid {
+      /* 第二層使用 CSS Grid 排版。 */
+      display: grid;
+      /* 桌機時每列三張卡片。 */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      /* 設定卡片間距。 */
+      gap: 16px;
+    }
+
+    .problem-card {
+      /* 設定第二層卡片邊框。 */
+      border: 2px solid #e5e7eb;
+      /* 設定第二層卡片圓角。 */
+      border-radius: 18px;
+      /* 設定第二層卡片背景。 */
+      background: white;
+      /* 設定第二層卡片內距。 */
+      padding: 18px;
+      /* 顯示可點選游標。 */
+      cursor: pointer;
+      /* 設定卡片最小高度，讓版面整齊。 */
+      min-height: 190px;
+      /* 使用彈性排版。 */
+      display: flex;
+      /* 內容由上往下排列。 */
+      flex-direction: column;
+      /* 設定內容間距。 */
+      gap: 12px;
+      /* 設定滑鼠動畫。 */
+      transition: .18s ease;
+    }
+
+    .problem-card:hover,
+    .problem-card.active {
+      /* 滑鼠移入或選取時，邊框改藍色。 */
+      border-color: #2563eb;
+      /* 滑鼠移入或選取時，卡片往上浮。 */
+      transform: translateY(-3px);
+      /* 滑鼠移入或選取時，加上藍色淡陰影。 */
+      box-shadow: 0 12px 26px rgba(37, 99, 235, .14);
+    }
+
+    .problem-top {
+      /* 第二層卡片標題列使用彈性排版。 */
+      display: flex;
+      /* 讓標題與編號分散到左右。 */
+      justify-content: space-between;
+      /* 讓內容靠上對齊。 */
+      align-items: flex-start;
+      /* 設定左右間距。 */
+      gap: 12px;
+    }
+
+    .problem-label {
+      /* 設定小標籤文字顏色。 */
+      color: #64748b;
+      /* 設定小標籤文字大小。 */
+      font-size: 12px;
+      /* 設定小標籤粗體。 */
       font-weight: 700;
-      margin-right: 8px;
+      /* 設定字距。 */
+      letter-spacing: .04em;
+    }
+
+    .problem-number {
+      /* 設定編號圓點寬度。 */
+      width: 32px;
+      /* 設定編號圓點高度。 */
+      height: 32px;
+      /* 設定編號圓點圓形。 */
+      border-radius: 999px;
+      /* 設定編號圓點背景。 */
+      background: #eff6ff;
+      /* 設定編號文字顏色。 */
+      color: #2563eb;
+      /* 啟用彈性排版。 */
+      display: inline-flex;
+      /* 垂直置中。 */
+      align-items: center;
+      /* 水平置中。 */
+      justify-content: center;
+      /* 設定粗體。 */
+      font-weight: 700;
+      /* 避免編號被壓縮。 */
+      flex: 0 0 auto;
+    }
+
+    .problem-desc {
+      /* 設定需求說明文字顏色。 */
+      color: #334155;
+      /* 設定需求說明文字大小。 */
+      font-size: 14px;
+      /* 設定行高。 */
+      line-height: 1.55;
+      /* 移除預設外距。 */
+      margin: 0;
+    }
+
+    .problem-note {
+      /* 設定第二層卡片底部提示區上框線。 */
+      border-top: 1px solid #e5e7eb;
+      /* 設定提示區上方內距。 */
+      padding-top: 12px;
+      /* 讓提示區被推到底部。 */
+      margin-top: auto;
+      /* 設定提示文字顏色。 */
+      color: #64748b;
+      /* 設定提示文字大小。 */
+      font-size: 13px;
+      /* 設定提示文字行高。 */
+      line-height: 1.5;
+    }
+
+    .summary-box {
+      /* 設定目前選擇摘要背景。 */
+      background: #0f172a;
+      /* 設定目前選擇摘要文字顏色。 */
+      color: white;
+      /* 設定目前選擇摘要圓角。 */
+      border-radius: 22px;
+      /* 設定目前選擇摘要內距。 */
+      padding: 22px;
+    }
+
+    .pill {
+      /* 讓標籤可以設定內距。 */
+      display: inline-block;
+      /* 設定標籤背景。 */
+      background: #dcfce7;
+      /* 設定標籤文字顏色。 */
+      color: #166534;
+      /* 設定標籤內距。 */
+      padding: 5px 10px;
+      /* 設定膠囊圓角。 */
+      border-radius: 999px;
+      /* 設定標籤字體大小。 */
+      font-size: 13px;
+      /* 設定右方間距。 */
+      margin-right: 6px;
+      /* 設定下方間距。 */
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 991.98px) {
+      /* 平板尺寸以下套用這段。 */
+      .problem-grid {
+        /* 平板時第二層每列兩張卡片。 */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      /* 手機尺寸以下套用這段。 */
+      .problem-grid {
+        /* 手機時第二層每列一張卡片。 */
+        grid-template-columns: 1fr;
+      }
     }
   </style>
+  <!-- CSS 結束。 -->
 </head>
+<!-- head 結束。 -->
 <body>
-
-  <!-- 頁首：顯示工具選型 Demo 的主標題與簡介。 -->
+  <!-- body 區塊放使用者看得到的內容。 -->
   <header class="hero">
+    <!-- 頁首區塊開始。 -->
     <div class="container">
-      <span class="hero-badge">Nine9 Tool Selector Demo</span>
-      <h1 class="display-5 fw-bold mb-3">不是先選產品，而是先選加工需求</h1>
-      <p class="lead mb-0">依照客戶實際問題，引導到正確刀具系列。</p>
+      <!-- Bootstrap container 讓內容置中並保留左右邊界。 -->
+      <span class="hero-badge">Nine9 Tool Selector</span>
+      <!-- 頁首小標籤。 -->
+      <h1 class="display-5 fw-bold mb-3">刀具快選：先選加工需求，再選問題</h1>
+      <!-- 頁面主標題。 -->
+      <p class="lead mb-0">這版先處理第一層「做什麼加工？」與第二層「你要解決什麼問題？」</p>
+      <!-- 頁面說明文字。 -->
     </div>
+    <!-- container 結束。 -->
   </header>
+  <!-- 頁首區塊結束。 -->
 
   <main class="container my-5">
-    <!-- 第一步：主要加工類別選項會由 JavaScript 動態產生。 -->
+    <!-- main 是主要內容區，my-5 是 Bootstrap 上下外距。 -->
     <section class="step-card mb-4">
-      <h2 class="h4 fw-bold mb-2"><span class="flow-dot">1</span>你要做什麼加工？</h2>
-      <p class="muted-small mb-4">第一層先用客戶聽得懂的加工目的分類。</p>
+      <!-- 第一層選擇區塊開始。 -->
+      <h2 class="h4 fw-bold mb-2"><span class="flow-dot">1</span>做什麼加工？</h2>
+      <!-- 第一層標題。 -->
+      <p class="muted-small mb-4">第一層只放客戶聽得懂的大分類，不先放產品名稱。</p>
+      <!-- 第一層說明。 -->
       <div class="row g-3" id="mainOptions"></div>
+      <!-- JavaScript 會把第一層卡片放進這個容器。 -->
     </section>
+    <!-- 第一層選擇區塊結束。 -->
 
-    <!-- 第二步：選擇主要類別後，顯示對應的問題選項。 -->
     <section class="step-card mb-4 d-none" id="problemSection">
+      <!-- 第二層選擇區塊開始，d-none 代表一開始先隱藏。 -->
       <h2 class="h4 fw-bold mb-2"><span class="flow-dot">2</span>你要解決什麼問題？</h2>
-      <p class="muted-small mb-4" id="problemHint">請選擇更細的加工需求。</p>
-      <div class="row g-3" id="problemOptions"></div>
+      <!-- 第二層標題。 -->
+      <p class="muted-small mb-4" id="problemHint">請先選擇第一層加工類別。</p>
+      <!-- 第二層提示文字，會由 JavaScript 更新。 -->
+      <div class="problem-grid" id="problemOptions"></div>
+      <!-- JavaScript 會把第二層問題卡片放進這個容器。 -->
     </section>
+    <!-- 第二層選擇區塊結束。 -->
 
-    <!-- 結果區：顯示推薦產品系列與下一步需求資訊。 -->
-    <section class="result-box d-none" id="resultSection">
-      <div class="row align-items-center g-4">
-        <div class="col-lg-8">
-          <div class="mb-3">
-            <span class="tag" id="tagMain"></span>
-            <span class="tag" id="tagProblem"></span>
-          </div>
-          <h2 class="fw-bold mb-3" id="resultTitle">推薦刀具</h2>
-          <p class="mb-3" id="resultDesc"></p>
-          <div class="table-responsive">
-            <table class="table table-dark table-bordered align-middle mb-0">
-              <tbody>
-                <tr>
-                  <th style="width: 140px;">推薦系列</th>
-                  <td id="resultSeries"></td>
-                </tr>
-                <tr>
-                  <th>代表產品</th>
-                  <td id="resultProducts"></td>
-                </tr>
-                <tr>
-                  <th>下一步</th>
-                  <td id="resultNext"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="bg-white text-dark rounded-4 p-4">
-            <h3 class="h5 fw-bold">後續可接資料庫</h3>
-            <p class="muted-small mb-3">這裡未來可以接 Google Sheet / JSON。</p>
-            <ol class="mb-0 small">
-              <li>選角度 / 孔徑 / 材料</li>
-              <li>推薦刀桿與刀片</li>
-              <li>輸出切削條件</li>
-              <li>下載型錄 / CAD</li>
-            </ol>
-          </div>
-        </div>
+    <section class="summary-box d-none" id="summarySection">
+      <!-- 目前選擇摘要區塊開始，先隱藏。 -->
+      <div class="mb-2">
+        <!-- 標籤容器。 -->
+        <span class="pill" id="summaryMain">第一層</span>
+        <!-- 顯示目前選到的第一層。 -->
+        <span class="pill" id="summaryProblem">第二層</span>
+        <!-- 顯示目前選到的第二層。 -->
       </div>
+      <!-- 標籤容器結束。 -->
+      <h2 class="h4 fw-bold mb-2">下一步：第三層才做刀具推薦</h2>
+      <!-- 摘要標題。 -->
+      <p class="mb-0" id="summaryText">目前只先確認分類邏輯，先不顯示推薦刀具。</p>
+      <!-- 摘要文字，會由 JavaScript 更新。 -->
     </section>
+    <!-- 目前選擇摘要區塊結束。 -->
   </main>
+  <!-- main 結束。 -->
 
   <script>
-    // 選型器資料來源：每個主類別包含顯示文字與對應的問題清單。
+    // JavaScript 開始：這裡控制資料與互動。
     const selectorData = [
+      // selectorData 是第一層與第二層的資料來源。
       {
+        // 第一層：孔加工。
         key: 'hole',
+        // key 是程式用的唯一代號。
         icon: '🕳️',
+        // icon 是第一層卡片顯示的圖示。
         title: '孔加工',
+        // title 是第一層顯示名稱。
         en: 'Hole Making',
-        desc: '定位、中心鑽、鑽孔、螺旋銑孔、搪孔',
+        // en 是英文輔助名稱。
+        desc: '定位、中心孔、鑽孔、螺旋銑孔、精修孔徑',
+        // desc 是第一層簡短說明。
         problems: [
-          { name: '我要定位', series: 'Spotting', products: 'ACE Spot Drill / NC Spot Drill / Micro Spot Drill', desc: '用於鑽孔前定位，提升孔位精度。', next: '選擇角度、孔徑、材料與定位深度。' },
-          { name: '我要中心孔', series: 'Centering', products: 'i-Center', desc: '適合中心孔與車床前置加工。', next: '選擇中心孔規格與加工深度。' },
-          { name: '我要鑽孔', series: 'Drilling', products: 'Super Drill / Super Power Drill', desc: '用於高效率鑽孔加工。', next: '選擇孔徑、深度、材料與冷卻方式。' },
-          { name: '我要大孔或薄板孔', series: 'Helix Drilling', products: 'NC Helix Drill', desc: '以螺旋銑孔方式加工較大孔徑或薄板孔。', next: '輸入孔徑、板厚、刀徑與材料。' },
-          { name: '我要精修孔徑', series: 'Boring', products: 'NineBore / NineSwiss Modular Head', desc: '用於孔徑精修、搪孔與高精度孔加工。', next: '輸入預孔、完成孔徑、公差與深度。' }
+          // problems 是孔加工底下的第二層問題。
+          { name: '我要定位', desc: '鑽孔前先做定位，避免鑽頭偏擺或孔位不準。', note: '第三層再分 ACE Spot Drill / Micro Spot Drill / Micro Spot Drill。' },
+          // 第二層：一般定位。
+          { name: '我要微小孔定位', desc: '小孔、微細孔或精密孔加工前，需要更細緻的定位。', note: '第三層再導向 Micro Spot Drill。' },
+          // 第二層：微小孔定位。
+          { name: '我要定位加倒角', desc: '同一支刀想完成定位與小倒角，減少換刀時間。', note: '第三層再導向 ACE Spot Drill / NC Spot Drill。' },
+          // 第二層：定位加倒角。
+          { name: '我要中心孔', desc: '車床加工或軸類工件需要標準中心孔。', note: '第三層再導向 i-Center Center Drill。' },
+          // 第二層：中心孔。
+          { name: '我要鑽孔', desc: '需要一般鑽孔或高效率鑽孔。', note: '第三層再依孔深與效率分 Super Drill / Super Power Drill。' },
+          // 第二層：鑽孔。
+          { name: '我要大孔 / 薄板孔', desc: '沒有適合鑽頭、孔很大、或薄板孔想用螺旋銑孔完成。', note: '第三層再導向 NC Helix Drill。' },
+          // 第二層：大孔或薄板孔。
+          { name: '我要精修孔徑', desc: '已有預孔，需要把孔徑修到更準。', note: '第三層再分 NineBore / NineSwiss。' }
+          // 第二層：精修孔徑。
         ]
+        // 孔加工 problems 結束。
       },
+      // 孔加工物件結束。
       {
+        // 第一層：倒角與 R 角。
         key: 'chamfer',
+        // 程式代號。
         icon: '📐',
+        // 顯示圖示。
         title: '倒角 / R角',
+        // 第一層名稱。
         en: 'Chamfering & Corner Rounding',
-        desc: 'C角、定位倒角、外R與內R加工',
+        // 英文名稱。
+        desc: '孔口倒角、外徑倒角、背面倒角、外R與內R',
+        // 簡短說明。
         problems: [
-          { name: '我要C角倒角', series: 'Chamfering', products: 'Chamfer Mill', desc: '適合一般 C 角倒角加工。', next: '輸入角度、C角大小與工件材料。' },
-          { name: '我要定位加倒角', series: 'Multi-purpose Spotting', products: 'NC Spot Drill', desc: '可兼具定位與小倒角用途。', next: '輸入孔徑、倒角大小與角度。' },
-          { name: '我要外R角', series: 'Corner Rounding', products: 'RC Type', desc: '適合外輪廓 R 角加工。', next: '選擇 R 值、工件形狀與材料。' },
-          { name: '我要內R角', series: 'Corner Rounding', products: 'R Type', desc: '適合內側或邊角 R 加工。', next: '選擇 R 值與可加工空間。' }
+          // 倒角與 R 角的第二層問題。
+          // { name: '我要孔口倒角', desc: '孔加工後，需要在孔口做 C 角或去銳邊。', note: '第三層再依角度與孔徑推薦倒角刀。' },
+          // 第二層：孔口倒角。
+          { name: '我要外徑倒角', desc: '外輪廓、外圓或邊線需要倒 C 角。', note: '第三層再導向 Chamfer Mill / ACE Spot Drill / NC Spot Drill。' },
+          // 第二層：外徑倒角。
+          { name: '我要背面倒角', desc: '刀具需要伸到孔背面或工件反面做倒角。', note: '第三層再導向 Chamfer Mill。' },
+          // 第二層：背面倒角。
+          { name: '我要定位加倒角', desc: '鑽孔前定位，同時做小倒角，減少加工步驟。', note: '第三層再導向 ACE Spot Drill / NC Spot Drill。' },
+          // 第二層：定位加倒角。
+          { name: '我要外R角', desc: '外輪廓邊緣需要加工圓角 R。', note: '第三層再導向 Corner Rounding RC Type / Corner Rounding R Type。' },
+          // 第二層：外 R 角。
+          { name: '我要背面R角', desc: '孔底、背面、反向位置的 R 角修整。', note: '第三層再導向 Corner Rounding R Type。' }
+          // 第二層：內 R 角。
         ]
+        // 倒角與 R 角 problems 結束。
       },
+      // 倒角與 R 角物件結束。
       {
+        // 第一層：去毛刺。
         key: 'deburring',
+        // 程式代號。
         icon: '✨',
+        // 顯示圖示。
         title: '去毛刺',
+        // 第一層名稱。
         en: 'Deburring',
-        desc: '孔口、正反面、交叉孔去毛刺',
+        // 英文名稱。
+        desc: '孔口毛邊、邊線毛邊、正反面毛邊',
+        // 簡短說明。
         problems: [
-          { name: '我要孔口去毛刺', series: 'Deburring', products: 'NC Deburring', desc: '適合孔口與邊緣去毛刺。', next: '確認孔徑、毛刺位置與可接近方向。' },
-          { name: '我要正反面去毛刺', series: 'Back Deburring', products: 'MCC Deburring Mill', desc: '適合需要處理正面與背面毛刺的加工。', next: '確認背面空間、孔徑與機台軸向能力。' },
-          { name: '我要交叉孔去毛刺', series: 'Deburring', products: 'NC Deburring', desc: '適合交叉孔、斜面孔口等去毛刺應用。', next: '確認交叉角度、孔徑與加工路徑。' }
+          // 去毛刺的第二層問題。
+          { name: '我要修毛邊', desc: '一般孔口、邊線或加工後產生銳邊毛刺。', note: '第三層再導向 NC Deburring。' },
+          // 第二層：修毛邊。
+          { name: '我要正反面修毛邊', desc: '孔的正面與背面都需要去毛刺。', note: '第三層再導向 MCC Deburring Mill。' },
+          // 第二層：正反面修毛邊。
+          { name: '我要交叉孔去毛刺', desc: '交叉孔、斜孔或內部相交位置有毛刺。', note: '第三層再判斷刀具可達性與加工路徑。' }
+          // 第二層：交叉孔去毛刺。
         ]
+        // 去毛刺 problems 結束。
       },
+      // 去毛刺物件結束。
       {
+        // 第一層：雕刻刻字。
         key: 'engraving',
+        // 程式代號。
         icon: '✏️',
+        // 顯示圖示。
         title: '雕刻刻字',
-        en: 'Fine Engraving',
-        desc: '文字、Logo、細字與深刻字',
+        // 第一層名稱。
+        en: 'Engraving & Marking',
+        // 英文名稱。
+        desc: 'Logo、一般刻字、微小字、深刻字、量產刻字',
+        // 簡短說明。
         problems: [
-          { name: '我要一般刻字', series: 'Fine Engraving', products: 'V060 / X060', desc: '適合一般文字與標記雕刻。', next: '選擇字高、深度、角度與材料。' },
-          { name: '我要細字雕刻', series: 'Fine Engraving', products: 'V045', desc: '適合較細小文字或精密標記。', next: '輸入字寬、深度與表面材質。' },
-          { name: '我要深刻字', series: 'Fine Engraving', products: 'W060', desc: '適合較深或較明顯的雕刻需求。', next: '確認深度、字寬與刀具伸出長度。' },
-          { name: '我要可換刀片雕刻', series: 'Indexable Engraving', products: 'N9MT-W', desc: '適合需要穩定量產與更換刀片的雕刻。', next: '選刀桿、刀片角度與加工材料。' }
+          // 雕刻刻字的第二層問題。
+          { name: '一般刻字 / Logo', desc: '產品表面需要一般文字、品牌 Logo 或標示。', note: '第三層再分 V060 / V045。' },
+          // 第二層：一般刻字。
+          { name: '微小文字雕刻', desc: '字很小、線寬很細或需要較精密的雕刻。', note: '第三層再導向 X060。' },
+          // 第二層：微小文字雕刻。
+          { name: '深刻字 / 粗字雕刻', desc: '字要比較深、比較粗，或需要更明顯的視覺效果。', note: '第三層再導向 W060。' },
+          // 第二層：深刻字。
+          { name: '大量生產刻字', desc: '量產時希望刀具壽命穩定、刀片可替換。', note: '第三層再導向 N9MT-W。' },
+          // 第二層：大量生產刻字。
+          { name: '點刻定位 / Spot Marking', desc: '只需要做點狀標記、定位點或簡單識別點。', note: '第三層再導向 NC Spot Drill。' }
+          // 第二層：點刻定位。
         ]
+        // 雕刻刻字 problems 結束。
       },
+      // 雕刻刻字物件結束。
       {
+        // 第一層：螺紋加工。
         key: 'thread',
+        // 程式代號。
         icon: '🔩',
+        // 顯示圖示。
         title: '螺紋加工',
-        en: 'Threading',
-        desc: '公制牙、UN牙、BSPP、PT、NPT',
+        // 第一層名稱。
+        en: 'Thread Milling',
+        // 英文名稱。
+        desc: '公制牙、UN牙、平行管牙、錐度管牙',
+        // 簡短說明。
         problems: [
-          { name: '我要公制牙 M', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合公制內外螺紋銑削。', next: '選擇 M 規格、Pitch、深度與材料。' },
-          { name: '我要UN牙', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合 UNC / UNF / UNEF 等牙型。', next: '輸入牙規、牙距、深度與方向。' },
-          { name: '我要管用平行牙 G/BSPP', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合 BSPP / G 平行管牙。', next: '選擇 G 規格、深度與材料。' },
-          { name: '我要管用錐度牙 PT/NPT', series: 'Thread Milling', products: 'MCC Thread Mill', desc: '適合 PT / Rc / NPT 管用錐度牙。', next: '選擇牙規、錐度、深度與切削路徑。' }
+          // 螺紋加工的第二層問題。
+          { name: '公制牙 M', desc: 'M 牙，例如 M6、M8、M10、M12 等。', note: '第三層再選 Pitch、牙深與材料。' },
+          // 第二層：公制牙。
+          { name: 'UN牙', desc: 'UNC、UNF、UNEF 等美制螺紋。', note: '第三層再選牙數 TPI 與牙深。' },
+          // 第二層：UN 牙。
+          { name: 'BSPP / G 平行管牙', desc: '55° 平行管牙，例如 G 1/8、G 1/4、G 1/2。', note: '第三層再選管牙規格與牙深。' },
+          // 第二層：BSPP / G。
+          { name: 'PT / NPT 錐度管牙', desc: '管用錐度牙，例如 PT、Rc、NPT。', note: '第三層再判斷錐度、牙深與加工方向。' }
+          // 第二層：錐度管牙。
         ]
+        // 螺紋加工 problems 結束。
       },
+      // 螺紋加工物件結束。
       {
+        // 第一層：銑削加工。
         key: 'milling',
+        // 程式代號。
         icon: '⚙️',
+        // 顯示圖示。
         title: '銑削加工',
-        en: 'High Performance Milling',
-        desc: '側銑、槽銑、面銑與高效率加工',
+        // 第一層名稱。
+        en: 'Milling',
+        // 英文名稱。
+        desc: '側銑、槽銑、面銑、大孔螺旋銑削',
+        // 簡短說明。
         problems: [
-          { name: '我要側銑', series: 'Milling', products: 'Power Mill', desc: '適合側面加工與輪廓銑削。', next: '輸入材料、切深、切寬與機台剛性。' },
-          { name: '我要槽銑', series: 'Milling', products: 'Power Mill', desc: '適合溝槽與高效率材料去除。', next: '輸入槽寬、深度、材料與冷卻方式。' },
-          { name: '我要面銑', series: 'Milling', products: 'Power Mill', desc: '適合平面加工與粗加工。', next: '輸入加工面積、材料與表面需求。' }
+          // 銑削加工的第二層問題。
+          { name: '我要側銑', desc: '加工外形輪廓、側壁或側面。', note: '第三層再導向 Power Mill。' },
+          // 第二層：側銑。
+          { name: '我要槽銑', desc: '加工溝槽、開槽或需要大量去除材料。', note: '第三層再導向 Power Mill。' },
+          // 第二層：槽銑。
+          { name: '我要面銑', desc: '加工平面、基準面或粗加工表面。', note: '第三層再導向 Power Mill。' },
+          // 第二層：面銑。
+          { name: '我要大孔螺旋銑削', desc: '用銑削方式加工大孔，不使用傳統鑽頭。', note: '第三層再導向 NC Helix Drill。' }
+          // 第二層：大孔螺旋銑削。
         ]
+        // 銑削加工 problems 結束。
       }
+      // 銑削加工物件結束。
     ];
+    // selectorData 結束。
 
-    // 快取會在使用者選擇後被更新的 DOM 元素。
     const mainOptions = document.getElementById('mainOptions');
+    // 取得第一層卡片容器。
     const problemSection = document.getElementById('problemSection');
+    // 取得第二層區塊。
     const problemOptions = document.getElementById('problemOptions');
+    // 取得第二層卡片容器。
     const problemHint = document.getElementById('problemHint');
-    const resultSection = document.getElementById('resultSection');
-
-    // 記錄目前被選取的主要加工類別。
+    // 取得第二層提示文字。
+    const summarySection = document.getElementById('summarySection');
+    // 取得目前選擇摘要區塊。
+    const summaryMain = document.getElementById('summaryMain');
+    // 取得摘要中的第一層標籤。
+    const summaryProblem = document.getElementById('summaryProblem');
+    // 取得摘要中的第二層標籤。
+    const summaryText = document.getElementById('summaryText');
+    // 取得摘要文字。
     let currentMain = null;
+    // currentMain 用來記錄目前選到的第一層。
 
-    // 根據 selectorData 產生第一步的選項卡片。
     function renderMainOptions() {
+      // renderMainOptions 負責產生第一層卡片。
       mainOptions.innerHTML = selectorData.map(item => `
+        <!-- 第一層卡片開始。 -->
         <div class="col-md-6 col-lg-4">
-          <div class="option-card" data-main="${item.key}">
-            <div class="option-icon">${item.icon}</div>
+          <!-- Bootstrap 欄位：中螢幕兩欄，大螢幕三欄。 -->
+          <div class="main-card" data-main="${item.key}">
+            <!-- data-main 存放這張卡片對應的 key。 -->
+            <div class="main-icon">${item.icon}</div>
+            <!-- 顯示圖示。 -->
             <h3 class="h5 fw-bold mb-1">${item.title}</h3>
+            <!-- 顯示第一層中文名稱。 -->
             <div class="muted-small mb-2">${item.en}</div>
+            <!-- 顯示第一層英文名稱。 -->
             <p class="mb-0 small">${item.desc}</p>
+            <!-- 顯示第一層說明。 -->
           </div>
+          <!-- 第一層卡片內容結束。 -->
         </div>
+        <!-- 第一層卡片結束。 -->
       `).join('');
+      // map 產生陣列，join 合併成 HTML 字串。
 
-      // 替每張主要類別卡片綁定點擊事件。
       document.querySelectorAll('[data-main]').forEach(card => {
+        // 找出所有第一層卡片並逐一綁定事件。
         card.addEventListener('click', () => selectMain(card.dataset.main));
+        // 點擊卡片時，呼叫 selectMain 並帶入卡片的 key。
       });
+      // 第一層事件綁定結束。
     }
+    // renderMainOptions 函式結束。
 
-    // 處理主要類別選擇，並產生對應的問題卡片。
     function selectMain(key) {
+      // selectMain 負責處理第一層被點選後的狀態。
       currentMain = selectorData.find(item => item.key === key);
+      // 用 key 從 selectorData 找出對應的第一層資料。
       document.querySelectorAll('[data-main]').forEach(card => card.classList.remove('active'));
+      // 先移除所有第一層卡片的 active 狀態。
       document.querySelector(`[data-main="${key}"]`).classList.add('active');
-
-      problemHint.textContent = `你選擇了「${currentMain.title}」，請選下一層加工問題。`;
+      // 將目前點選的第一層卡片加上 active 狀態。
+      problemHint.textContent = `你選擇了「${currentMain.title}」，請選擇更細的加工問題。`;
+      // 更新第二層提示文字。
       problemOptions.innerHTML = currentMain.problems.map((problem, index) => `
-        <div class="col-md-6 col-lg-4">
-          <div class="option-card" data-problem="${index}">
-            <h3 class="h5 fw-bold mb-2">${problem.name}</h3>
-            <p class="small mb-2">${problem.desc}</p>
-            <span class="tag">${problem.series}</span>
+        <!-- 第二層卡片開始。 -->
+        <div class="problem-card" data-problem="${index}">
+          <!-- data-problem 存放這張問題卡片在 problems 裡面的序號。 -->
+          <div class="problem-top">
+            <!-- 第二層卡片標題列開始。 -->
+            <div>
+              <!-- 標題文字容器。 -->
+              <div class="problem-label">加工問題</div>
+              <!-- 小標籤。 -->
+              <h3 class="h5 fw-bold mb-0">${problem.name}</h3>
+              <!-- 第二層問題名稱。 -->
+            </div>
+            <!-- 標題文字容器結束。 -->
+            <span class="problem-number">${index + 1}</span>
+            <!-- 第二層卡片編號。 -->
           </div>
+          <!-- 第二層卡片標題列結束。 -->
+          <p class="problem-desc">${problem.desc}</p>
+          <!-- 第二層問題說明。 -->
+          <div class="problem-note"><strong>備註：</strong>${problem.note}</div>
+          <!-- 第二層底部提示：先保留第三層方向，但不正式推薦刀具。 -->
         </div>
+        <!-- 第二層卡片結束。 -->
       `).join('');
-
+      // 將第二層問題資料轉成 HTML。
       problemSection.classList.remove('d-none');
-      resultSection.classList.add('d-none');
-
-      // 替每張問題卡片綁定點擊事件。
+      // 顯示第二層區塊。
+      summarySection.classList.add('d-none');
+      // 切換第一層時，先隱藏摘要區塊。
       document.querySelectorAll('[data-problem]').forEach(card => {
+        // 找出所有第二層卡片並逐一綁定事件。
         card.addEventListener('click', () => selectProblem(Number(card.dataset.problem)));
+        // 點擊第二層卡片時，呼叫 selectProblem 並帶入序號。
       });
-
-      // 捲動到剛顯示出來的問題區塊。
+      // 第二層事件綁定結束。
       problemSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // 自動捲動到第二層區塊。
     }
+    // selectMain 函式結束。
 
-    // 處理問題選擇，並填入推薦結果區塊。
     function selectProblem(index) {
+      // selectProblem 負責處理第二層被點選後的狀態。
       const problem = currentMain.problems[index];
-
-      // 更新問題卡片的選取狀態。
+      // 依照 index 從目前第一層中取得問題資料。
       document.querySelectorAll('[data-problem]').forEach(card => card.classList.remove('active'));
+      // 先移除所有第二層卡片的 active 狀態。
       document.querySelector(`[data-problem="${index}"]`).classList.add('active');
-
-      // 使用目前選到的主要類別與問題資料填入結果欄位。
-      document.getElementById('tagMain').textContent = currentMain.title;
-      document.getElementById('tagProblem').textContent = problem.name;
-      document.getElementById('resultTitle').textContent = `推薦：${problem.products}`;
-      document.getElementById('resultDesc').textContent = problem.desc;
-      document.getElementById('resultSeries').textContent = problem.series;
-      document.getElementById('resultProducts').textContent = problem.products;
-      document.getElementById('resultNext').textContent = problem.next;
-
-      // 顯示結果區塊，並捲動到結果位置。
-      resultSection.classList.remove('d-none');
-      resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // 將目前點選的第二層卡片加上 active 狀態。
+      summaryMain.textContent = currentMain.title;
+      // 更新摘要區的第一層文字。
+      summaryProblem.textContent = problem.name;
+      // 更新摘要區的第二層文字。
+      summaryText.textContent = `目前選擇：「${currentMain.title}」→「${problem.name}」。下一版再接第三層刀具推薦與規格篩選。`;
+      // 更新摘要說明文字。
+      summarySection.classList.remove('d-none');
+      // 顯示摘要區塊。
+      summarySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // 自動捲動到摘要區塊。
     }
+    // selectProblem 函式結束。
 
-    // 初始化頁面，先產生第一步選項。
     renderMainOptions();
+    // 網頁載入後，先產生第一層卡片。
   </script>
+  <!-- JavaScript 結束。 -->
 </body>
+<!-- body 結束。 -->
 </html>
+<!-- HTML 文件結束。 -->
